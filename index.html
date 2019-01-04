@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Movement detection</title>
+</head>
+
+<body>
+
+    <script>
+        //const elContainer = document.getElementById('myContainer');
+        const elContainer = document.body;
+
+        let timer, posX, posY;
+
+        const setDirection = event => {
+            posX = event.clientX;
+            posY = event.clientY;
+        }
+
+        const detectDirection = event => {
+            let direction;
+            let newPosX = event.clientX;
+            let newPosY = event.clientY;
+
+            direction = posX < newPosX && posY < newPosY
+                ? 'rb'
+                : posX > newPosX && posY > newPosY
+                    ? 'lt'
+                    : posX > newPosX && posY === newPosY
+                        ? 'l'
+                        : posX > newPosX && posY < newPosY
+                            ? 'lb'
+                            : posX < newPosX && posY > newPosY
+                                ? 'rt'
+                                : posX === newPosX && posY > newPosY
+                                    ? 't'
+                                    : posX === newPosX && posY < newPosY
+                                        ? 'b'
+                                        : posX < newPosX && posY === newPosY
+                                            ? 'r'
+                                            : ''
+
+            setDirection(event);
+            console.log(direction);
+        }
+
+        elContainer.addEventListener('mouseenter', setDirection)
+
+        elContainer.addEventListener('mousemove', event => {
+            clearTimeout(timer);
+
+            timer = setTimeout(() => {
+                detectDirection(event);
+            }, 20);
+        });
+    </script>
+</body>
+
+</html>
